@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Nav.css";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default function Nav() {
   const [show, setShow] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false); // 인풋 창이 열려있는지 여부
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -17,30 +23,50 @@ export default function Nav() {
     };
   }, []);
 
-  return (
-    <div className="container">
-      <nav className={`nav ${show && "nav__black"} `}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1920px-Netflix_2015_logo.svg.png"
-          alt="Netflix logo"
-          className="nav__logo"
-          onClick={() => window.location.reload()}
-        />
+  const handleChange = (e) => {
+    setSearchValue(e.target.value);
+    navigate(`/search?q=${e.target.value}`);
+  };
 
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png?20201013161117"
-          alt="User logged"
-          className="nav__avatar"
+  const handleLogoClick = () => {
+    // 홈 페이지로 돌아가기
+    navigate("/");
+  };
+
+  const handleSearchIconClick = () => {
+    // 아이콘을 클릭하면 인풋 창 열기/닫기
+    setIsSearchOpen((prev) => !prev);
+  };
+
+  return (
+    <nav className={`nav ${show && "nav__black"} `}>
+      <img
+        alt="Netflix logo"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/170px-Netflix_2015_logo.svg.png"
+        className="nav__logo"
+        onClick={handleLogoClick}
+      />
+      {isSearchOpen && ( // isSearchOpen 상태에 따라 인풋 창 보이기/숨기기
+        // React 컴포넌트 내부
+        <input
+          value={searchValue}
+          onChange={handleChange}
+          className="nav__input"
+          type="text"
+          placeholder="영화를 검색해주세요."
         />
-      </nav>
-      <ul className="item_box">
-        <li className="item">Home</li>
-        <li className="item">시리즈</li>
-        <li className="item">영화</li>
-        <li className="item">NEW! 요즘 대세 콘텐츠</li>
-        <li className="item">내가 찜한 리스트</li>
-        <li className="item">언어별로 찾아보기</li>
-      </ul>
-    </div>
+      )}
+      <img
+        alt="User logged"
+        src="https://occ-0-4796-988.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABbme8JMz4rEKFJhtzpOKWFJ_6qX-0y5wwWyYvBhWS0VKFLa289dZ5zvRBggmFVWVPL2AAYE8xevD4jjLZjWumNo.png?r=a41"
+        className="nav__avatar"
+      />
+      <FontAwesomeIcon
+        className="nav__search"
+        icon={faSearch}
+        style={{ color: "#ffffff", fontSize: "25px" }}
+        onClick={handleSearchIconClick}
+      />
+    </nav>
   );
 }

@@ -3,10 +3,12 @@ import axios from "../api/axios";
 import requests from "../api/requests";
 import "./Banner.css";
 import styled from "styled-components";
+import MovieModal from "./MovieModal";
 
 const Banner = () => {
   const [movie, setMovie] = useState({});
   const [isClicked, setIsClicked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     //처음 페이지가 렌더링 될때 데이터를 가지고있어야하기때문에 fetchData함수 call
@@ -56,7 +58,12 @@ const Banner = () => {
             >
               Play
             </button>
-            <button className="banner__button info">More Information</button>
+            <button
+              className="banner__button info"
+              onClick={() => setIsModalOpen(true)}
+            >
+              More Information
+            </button>
           </div>
 
           <h1 className="banner__description">
@@ -64,6 +71,10 @@ const Banner = () => {
           </h1>
         </div>
         <div className="banner--fadeBottom" />
+
+        {isModalOpen && (
+          <MovieModal movie={movie} setModalOpen={setIsModalOpen} />
+        )}
       </header>
     );
   } else {

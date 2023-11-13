@@ -1,0 +1,23 @@
+.section {
+    margin-left: 30px;
+}
+
+.detail_img_container {
+    text-align: center;
+   
+}
+.detail_title {
+    margin-top: 20px;
+    border-top: 1px solid gray;
+    padding-top: 10px;
+}
+
+.detail_img {
+    width: 80%;
+
+}
+
+.detail_overview {
+    width: 70%;
+    margin-top: 10px;
+}
